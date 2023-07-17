@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, UnicodeText
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import select
 
 import sys
@@ -9,7 +9,7 @@ import datetime
 
 # Sqlite3 will be used as database engine. Database will be saved in file guestbook.db
 engine = create_engine('sqlite:///guestbook.db', echo=False)
-Base = declarative_base(bind=engine)
+Base = declarative_base()
 
 # Sqlalchemy translates class to sqlite3 table and creates database
 class User(Base):
@@ -24,7 +24,7 @@ class User(Base):
         self.message = message
         self.date = date
 
-Base.metadata.create_all()
+Base.metadata.create_all(bind=engine)
 
 # Create connection to database for all crud operations
 Session = sessionmaker(bind=engine)
